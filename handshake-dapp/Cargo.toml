@@ -8,3 +8,6 @@ yew = { version = "0.20.0", features = ["csr"] }
 yew-router = "0.17"
 qrcode-generator = "4.1.8"
 base64 = "0.13"
+
+[features]
+github = []
