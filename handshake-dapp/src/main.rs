@@ -1,4 +1,5 @@
 mod app;
+pub mod env;
 pub use app::App;
 
 fn main() {
