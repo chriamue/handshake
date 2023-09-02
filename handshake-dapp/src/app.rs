@@ -6,6 +6,7 @@ use yew_router::prelude::*;
 use web_sys::window;
 use crate::profile::Profile;
 use crate::connect_to::ConnectTo;
+use crate::sign_up::SignUp;
 
 #[derive(Clone, Routable, PartialEq)]
 pub enum Route {
@@ -13,6 +14,8 @@ pub enum Route {
     Home,
     #[at("/connect")]
     Connect,
+    #[at("/profile")]
+    Profile,
 }
 
 pub struct App;
@@ -63,15 +66,26 @@ fn switch(routes: Route) -> Html {
                 <ConnectTo id={id} />
             </div> }
         }
-        Route::Home => {
+        Route::Profile => {
             let png_data: Vec<u8> =
                 qrcode_generator::to_png_to_vec(&URL, QrCodeEcc::Low, 1024).unwrap();
             let base64_png = encode(&png_data);
             html! {
                 <>
+                <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>
                     <Profile />
                 </>
             }
+        }
+        Route::Home => {
+            html! {
+            <div>
+                <h1>{"Welcome Handshake!"}</h1>
+                <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>
+                <Link<Route> to={Route::Profile}> <button>{"My Profile"}</button></Link<Route>>
+
+                <SignUp />
+            </div> }
         }
     }
 }

@@ -4,6 +4,7 @@ pub mod env;
 pub mod services;
 pub mod profile;
 pub mod connect_to;
+pub mod sign_up;
 pub use app::App;
 
 
