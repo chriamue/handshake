@@ -65,10 +65,18 @@ impl Component for ConnectTo {
         let id = ctx.props().id.clone();
         html! {
             <div>
-                <h1>{"Connecting to "}{id.clone()}</h1>
-                <AddressButtonComponent on_account={Some(ctx.link().callback(Message::AccountChanged))} on_address={Callback::noop()}/>
+            <AddressButtonComponent on_account={Some(ctx.link().callback(Message::AccountChanged))} on_address={Callback::noop()}/>
+                
+            <div id="connect">
+            <img id="currentevent" src="res/currentevent.png" width="100%" height="100%" alt="currentevent"/>
+                <div id="connectto">{"Connecting to "}</div>
+                <div id="azeroid">
                 <AzeroId account={id.clone()} />
+                </div>
+                <div id="id">
+                {id.clone()}</div>
                 <button onclick={ctx.link().callback(|_| Message::DoHandshake)}>{"Handshake"}</button>
+            </div>
             </div>
         }
     }
