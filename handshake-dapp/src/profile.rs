@@ -59,7 +59,9 @@ impl Component for Profile {
                 {
                     match &self.qr_code_data {
                         Some(qr_code_data) => html! {
-                            <img width=320 height=320 src={format!("data:image/png;base64,{}", qr_code_data)} />
+                            <a href={format!("{}connect?id={}", URL, self.address.as_ref().unwrap_or(&"".to_string()))} target="blank">
+                                <img width=320 height=320 src={format!("data:image/png;base64,{}", qr_code_data)} />
+                            </a>
                         },
                         None => html! {
                             <></>

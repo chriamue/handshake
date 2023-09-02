@@ -15,7 +15,9 @@ impl Component for Leaderboard {
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div>
-                <h1>{"Leaderboard"}</h1>
+
+                <h1 style="color: #FFFFFF !important;">{"Leaderboard"}</h1>
+
                 <div style="display: flex; justify-content: space-between;">
                     <div style="flex: 1; margin-right: 20px;">
                         {"Event attendees: "}

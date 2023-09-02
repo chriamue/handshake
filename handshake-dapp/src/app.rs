@@ -63,6 +63,7 @@ fn switch(routes: Route) -> Html {
             };
             html! {
             <div>
+                <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>
                 <ConnectTo id={id} />
             </div> }
         }

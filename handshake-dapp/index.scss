@@ -50,6 +50,7 @@ button {
 #connect {
   width: 100%;
   height: 100%;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -89,7 +90,7 @@ button {
   letter-spacing: -0.42px;
 }
 
-#connect #aicon {
+#connect  #aicon {
   display: flex;
   justify-content: center; /* horizontal centering */
   align-items: center; /* vertical centering */
@@ -98,6 +99,7 @@ button {
 }
 
 .azeroid {
+  margin: auto;
   color: #130129;
   font-family: Inter;
   font-size: 22px;

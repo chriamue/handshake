@@ -43,12 +43,10 @@ impl Component for AzeroId {
     }
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
-
         match &self.domain {
             Some(domain) => {
                 html! {
                     <div class={classes!("azeroid")}>
-                        {"Azero ID: "}
                         <a style="color: #130129" href={format!("https://{}.id", domain)} target="_blank">
                             {domain}
                         </a>
@@ -61,6 +59,5 @@ impl Component for AzeroId {
                 }
             }
         }
-        
     }
 }

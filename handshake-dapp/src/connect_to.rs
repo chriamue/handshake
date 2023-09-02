@@ -64,23 +64,23 @@ impl Component for ConnectTo {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let id = ctx.props().id.clone();
         html! {
-            <div>
-            <AddressButtonComponent on_account={Some(ctx.link().callback(Message::AccountChanged))} on_address={Callback::noop()}/>
+                   <div>
+                   <AddressButtonComponent on_account={Some(ctx.link().callback(Message::AccountChanged))} on_address={Callback::noop()}/>
 
-            <div id="connect">
-                <img id="currentevent" src="res/currentevent.png" width="100%" height="100%" alt="currentevent"/>
-                <div id="connectto">{"Connecting to "}</div>
-                <div id="aicon">
-                    <img src="res/aicon.png" width="124px" height="124px" alt="aicon"/>
-                </div>
-                <div id="azeroid">
-                <AzeroId account={id.clone()} />
-                </div>
-                <div id="id">
-                {id.clone()}</div>
-                <button onclick={ctx.link().callback(|_| Message::DoHandshake)}>{"Handshake"}</button>
-            </div>
-            </div>
-        }
+                   <div id="connect" style="display: flex; justify-content: center; align-items: center;">
+                       <img id="currentevent" src="res/currentevent.png" width="100%" height="100%" alt="currentevent"/>
+                       <div id="connectto">{"Connect with"}</div>
+                        <div id="aicon" style="display: flex; justify-content: center; align-items: center;">
+                            <img src="res/aicon.png" width="124px" height="124px" alt="aicon"/>
+                        </div>
+                       <div id="azeroid">
+                       <AzeroId account={id.clone()} />
+                       </div>
+                       <div id="id">
+                       {id.clone()}</div>
+                       <button onclick={ctx.link().callback(|_| Message::DoHandshake)}>{"Handshake"}</button>
+                   </div>
+                   </div>
+               }
     }
 }
