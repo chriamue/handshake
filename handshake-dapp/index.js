@@ -112,7 +112,7 @@ async function doHandshake(contractAddress, source, senderAddress, destinationAd
   );
 
   const MAX_CALL_WEIGHT = new BN(11344007255).isub(BN_ONE);
-  const PROOFSIZE = new BN(110307);
+  const PROOFSIZE = new BN(131072);
 
   const gasLimit = api?.registry.createType("WeightV2", {
     refTime: MAX_CALL_WEIGHT,
