@@ -10,6 +10,7 @@ pub mod handshake {
     pub struct Handshake {
         #[storage_field]
         psp22: psp22::Data,
+        accounts: ink::prelude::vec::Vec<AccountId>,
     }
 
     impl Handshake {
@@ -21,6 +22,18 @@ pub mod handshake {
                 .expect("Should mint");
 
             instance
+        }
+
+        #[ink(message)]
+        pub fn signup(&mut self) -> Result<(), PSP22Error> {
+            let caller = Self::env().caller();
+            self.accounts.push(caller);
+            Ok(())
+        }
+
+        #[ink(message)]
+        pub fn num_accounts(&self) -> Result<u32, PSP22Error> {
+            Ok(self.accounts.len().try_into().unwrap())
         }
     }
 
@@ -80,9 +93,7 @@ pub mod handshake {
                     .call(|contract| contract.balance_of(address_of(&ink_e2e::alice())));
                 client.call_dry_run(&ink_e2e::alice(), &_msg, 0, None).await
             };
-
             assert!(matches!(result.return_value(), 100));
-
             Ok(())
         }
 
@@ -116,6 +127,40 @@ pub mod handshake {
 
             assert_eq!(balance_of_bob, 50, "Bob should have 50 tokens");
             assert_eq!(balance_of_alice, 50, "Alice should have 50 tokens");
+
+            Ok(())
+        }
+
+        #[ink_e2e::test]
+        async fn account_signup(mut client: ink_e2e::Client<C,E>) -> E2EResult<()> {
+            let constructor = ContractRef::new(100);
+            let address = client
+                .instantiate("handshake", &ink_e2e::alice(), constructor, 0, None)
+                .await
+                .expect("instantiate failed")
+                .account_id;
+
+            let result = {
+                let _msg = build_message::<ContractRef>(address.clone())
+                    .call(|contract| contract.signup());
+                client
+                    .call(&ink_e2e::alice(), _msg, 0, None)
+                    .await
+                    .expect("signup failed")
+            };
+
+            assert!(matches!(result.return_value(), Ok(())));
+
+            let num_accounts = {
+                let _msg = build_message::<ContractRef>(address.clone())
+                    .call(|contract| contract.num_accounts());
+                client
+                    .call_dry_run(&ink_e2e::alice(), &_msg, 0, None)
+                    .await
+                    .return_value()
+            };
+
+            assert_eq!(num_accounts.unwrap(), 1, "Should have 1 account");
 
             Ok(())
         }

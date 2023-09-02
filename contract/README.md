@@ -24,3 +24,9 @@ substrate-contracts-node --base-path chain
 cd contract
 cargo contract build --release
 ```
+
+## Test the Contract
+
+```bash
+cargo test --release --features e2e-tests
+```
