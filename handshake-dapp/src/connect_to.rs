@@ -1,7 +1,8 @@
-use yew::prelude::*;
 use crate::address_button_component::AddressButtonComponent;
-use crate::services::Account;
+use crate::azero_id::AzeroId;
 use crate::services::do_handshake;
+use crate::services::Account;
+use yew::prelude::*;
 
 pub enum Message {
     AccountChanged(Account),
@@ -42,10 +43,14 @@ impl Component for ConnectTo {
                     ctx.link().send_future(async move {
                         match do_handshake(source, sender_address, destination_address).await {
                             Ok(response) => {
-                                web_sys::console::log_1(&format!("Handshake success: {}", response).into());
+                                web_sys::console::log_1(
+                                    &format!("Handshake success: {}", response).into(),
+                                );
                             }
                             Err(e) => {
-                                web_sys::console::log_1(&format!("Handshake error: {:?}", e).into());
+                                web_sys::console::log_1(
+                                    &format!("Handshake error: {:?}", e).into(),
+                                );
                             }
                         }
                         Message::AccountChanged(account_clone)
@@ -60,8 +65,9 @@ impl Component for ConnectTo {
         let id = ctx.props().id.clone();
         html! {
             <div>
-                <h1>{"Connecting to "}{id}</h1>
+                <h1>{"Connecting to "}{id.clone()}</h1>
                 <AddressButtonComponent on_account={Some(ctx.link().callback(Message::AccountChanged))} on_address={Callback::noop()}/>
+                <AzeroId account={id.clone()} />
                 <button onclick={ctx.link().callback(|_| Message::DoHandshake)}>{"Handshake"}</button>
             </div>
         }

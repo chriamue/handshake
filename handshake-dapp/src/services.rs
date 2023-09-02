@@ -19,8 +19,10 @@ extern "C" {
         contract: String,
         source: String,
         sender_address: String,
-        destination_address: String
+        destination_address: String,
     ) -> Promise;
+    #[wasm_bindgen(js_name = doAccountLookup)]
+    pub fn js_do_account_lookup(accountAddress: String) -> Promise;
 }
 
 /// DTO to communicate with JavaScript
@@ -47,11 +49,23 @@ pub async fn get_accounts() -> Result<Vec<Account>, anyhow::Error> {
     Ok(accounts)
 }
 
+pub async fn get_azero_id(account: String) -> Result<String, anyhow::Error> {
+    let result = JsFuture::from(js_do_account_lookup(account))
+        .await
+        .map_err(|js_err| anyhow!("{js_err:?}"))?;
+    let domain_str = result
+        .as_string()
+        .ok_or(anyhow!("Error converting JsValue into String"))?;
+    Ok(domain_str)
+}
+
 pub async fn get_num_accounts() -> Result<String, anyhow::Error> {
     let result = JsFuture::from(js_fetch_num_accounts(CONTRACT.to_string()))
         .await
         .map_err(|js_err| anyhow!("{js_err:?}"))?;
-    let num_accounts = result.as_string().ok_or(anyhow!("Expected a stringified JSON"))?;
+    let num_accounts = result
+        .as_string()
+        .ok_or(anyhow!("Expected a stringified JSON"))?;
     Ok(num_accounts)
 }
 
@@ -64,7 +78,7 @@ pub async fn do_handshake(
         CONTRACT.to_string(),
         source,
         sender_address,
-        destination_address
+        destination_address,
     ))
     .await
     .map_err(|js_err| anyhow!("{js_err:?}"))?;

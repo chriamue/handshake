@@ -98,22 +98,22 @@ async function queryContract(contractAddress, queryFunction, ...args) {
 
 async function doHandshake(contractAddress, source, senderAddress, destinationAddress) {
   const { ContractPromise } = await import(
-      "https://cdn.jsdelivr.net/npm/@polkadot/api-contract@10.9.1/+esm"
+    "https://cdn.jsdelivr.net/npm/@polkadot/api-contract@10.9.1/+esm"
   );
   const { api } = await initApi();
   const metadata = await loadContractMetadata();
   const contract = new ContractPromise(api, metadata, contractAddress);
 
   const { BN, BN_ONE } = await import(
-      "https://cdn.jsdelivr.net/npm/@polkadot/util@12.4.1/+esm"
+    "https://cdn.jsdelivr.net/npm/@polkadot/util@12.4.1/+esm"
   );
 
   const MAX_CALL_WEIGHT = new BN(11344007255).isub(BN_ONE);
   const PROOFSIZE = new BN(110307);
 
   const gasLimit = api?.registry.createType("WeightV2", {
-      refTime: MAX_CALL_WEIGHT,
-      proofSize: PROOFSIZE,
+    refTime: MAX_CALL_WEIGHT,
+    proofSize: PROOFSIZE,
   });
 
   const storageDepositLimit = null;
@@ -121,11 +121,28 @@ async function doHandshake(contractAddress, source, senderAddress, destinationAd
   const injector = await extensionMod.web3FromSource(source);
 
   const result = await contract.tx["handshake"]({
-      gasLimit,
-      storageDepositLimit,
+    gasLimit,
+    storageDepositLimit,
   }, destinationAddress).signAndSend(senderAddress, { signer: injector.signer });
-  
+
   return result.toHuman();
+}
+
+async function doAccountLookup(accountAddress) {
+  const { SupportedChainId, resolveAddressToDomain } = await import(
+    "https://cdn.jsdelivr.net/npm/@azns/resolver-core/+esm"
+  );
+  console.log(SupportedChainId)
+  const { primaryDomain, error } = await resolveAddressToDomain(
+    accountAddress,
+    {
+      chainId: SupportedChainId.AlephZero,
+    },
+  )
+  // Print result
+  if (error) console.log(error.message)
+  else console.log(primaryDomain)
+  return primaryDomain;
 }
 
 async function fetchNumAccounts(contractAddress) {
@@ -143,3 +160,5 @@ fetchNumAccounts("5C93YodqcxnCBRq6V7fCofvwLiLshkFqrhVJTzjoXMvjQRo7").catch(
 fetchNumHandshakes("5C93YodqcxnCBRq6V7fCofvwLiLshkFqrhVJTzjoXMvjQRo7").catch(
   console.error
 );
+
+doAccountLookup("5H8rm9f9LE7VLqrL8qhmu4NAjwfPTrH8ShsyUqMBq6aDsaHb").catch(console.error);

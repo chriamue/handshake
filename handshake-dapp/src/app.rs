@@ -1,8 +1,8 @@
 use crate::connect_to::ConnectTo;
 use crate::env::URL;
+use crate::leaderboard::Leaderboard;
 use crate::profile::Profile;
 use crate::sign_up::SignUp;
-use crate::leaderboard::Leaderboard;
 use base64::encode;
 use qrcode_generator::QrCodeEcc;
 use web_sys::window;

@@ -1,6 +1,6 @@
-use yew::prelude::*;
 use crate::num_accounts_component::NumAccountsComponent;
 use crate::num_active_component::NumActiveComponent;
+use yew::prelude::*;
 
 pub struct Leaderboard;
 
@@ -32,5 +32,4 @@ impl Component for Leaderboard {
             </div>
         }
     }
-    
 }
