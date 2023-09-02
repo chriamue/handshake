@@ -127,7 +127,7 @@ async function doHandshake(contractAddress, source, senderAddress, destinationAd
     gasLimit,
     storageDepositLimit,
   }, destinationAddress).signAndSend(senderAddress, { signer: injector.signer });
-
+  console.log("handshake transaction result", result);
   return result.toHuman();
 }
 
