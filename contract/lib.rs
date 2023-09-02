@@ -11,6 +11,8 @@ pub mod handshake {
         #[storage_field]
         psp22: psp22::Data,
         accounts: ink::prelude::vec::Vec<AccountId>,
+        #[storage_field]
+        handshakes: ink::prelude::vec::Vec<(AccountId, AccountId)>,
     }
 
     impl Handshake {
@@ -34,6 +36,30 @@ pub mod handshake {
         #[ink(message)]
         pub fn num_accounts(&self) -> Result<u32, PSP22Error> {
             Ok(self.accounts.len().try_into().unwrap())
+        }
+
+        #[ink(message)]
+        pub fn handshake(&mut self, other: AccountId) -> Result<(), PSP22Error> {
+            let executive = Self::env().caller();
+            self.handshakes.push((executive, other));
+            Ok(())
+        }
+
+        #[ink(message)]
+        pub fn num_handshakes(&self) -> Result<u32, PSP22Error> {
+            Ok(self.handshakes.len().try_into().unwrap())
+        }
+
+        #[ink(message)]
+        pub fn open_handshakes(&self) -> Result<Vec<AccountId>, PSP22Error> {
+            let caller = Self::env().caller();
+            let other_handshakes: Vec<AccountId> = self
+                .handshakes
+                .iter()
+                .filter(|(_, other)| other == &caller)
+                .map(|(executive, _)| *executive)
+                .collect();
+            Ok(other_handshakes)
         }
     }
 
@@ -132,7 +158,7 @@ pub mod handshake {
         }
 
         #[ink_e2e::test]
-        async fn account_signup(mut client: ink_e2e::Client<C,E>) -> E2EResult<()> {
+        async fn account_signup(mut client: ink_e2e::Client<C, E>) -> E2EResult<()> {
             let constructor = ContractRef::new(100);
             let address = client
                 .instantiate("handshake", &ink_e2e::alice(), constructor, 0, None)
@@ -154,6 +180,40 @@ pub mod handshake {
             let num_accounts = {
                 let _msg = build_message::<ContractRef>(address.clone())
                     .call(|contract| contract.num_accounts());
+                client
+                    .call_dry_run(&ink_e2e::alice(), &_msg, 0, None)
+                    .await
+                    .return_value()
+            };
+
+            assert_eq!(num_accounts.unwrap(), 1, "Should have 1 account");
+
+            Ok(())
+        }
+
+        #[ink_e2e::test]
+        async fn count_handshakes(mut client: ink_e2e::Client<C, E>) -> E2EResult<()> {
+            let constructor = ContractRef::new(100);
+            let address = client
+                .instantiate("handshake", &ink_e2e::alice(), constructor, 0, None)
+                .await
+                .expect("instantiate failed")
+                .account_id;
+
+            let result = {
+                let _msg = build_message::<ContractRef>(address.clone())
+                    .call(|contract| contract.handshake(address_of(&ink_e2e::bob())));
+                client
+                    .call(&ink_e2e::alice(), _msg, 0, None)
+                    .await
+                    .expect("handshake failed")
+            };
+
+            assert!(matches!(result.return_value(), Ok(())));
+
+            let num_accounts = {
+                let _msg = build_message::<ContractRef>(address.clone())
+                    .call(|contract| contract.num_handshakes());
                 client
                     .call_dry_run(&ink_e2e::alice(), &_msg, 0, None)
                     .await
