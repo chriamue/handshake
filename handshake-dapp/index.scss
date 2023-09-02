@@ -2,10 +2,6 @@ $primary: #130129;
 $secondary: #FFF;
 $dark: #242a35;
 
-* {
-  font-family: monospace;
-  color: $secondary;
-}
 
 html {
   background-color: $dark;
@@ -93,7 +89,7 @@ button {
   letter-spacing: -0.42px;
 }
 
-#connect #azeroid {
+.azeroid {
   color: #130129;
   font-family: Inter;
   font-size: 22px;
@@ -101,4 +97,10 @@ button {
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.66px;
+}
+
+
+* {
+  font-family: monospace;
+  color: $secondary;
 }

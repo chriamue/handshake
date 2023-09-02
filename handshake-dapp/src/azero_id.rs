@@ -43,22 +43,24 @@ impl Component for AzeroId {
     }
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <>
-                { if let Some(domain) = &self.domain {
-                    html! {
-                        <>
-                            <div> {"Azero ID: "}
-                                <a href={format!("https://{}.id", domain)} target="_blank">
-                                    {domain}
-                                </a>
-                            </div>
-                        </> }
-                  } else {
-                    html! { <div>{"Fetching Azero ID..."}</div> }
-                  }
+
+        match &self.domain {
+            Some(domain) => {
+                html! {
+                    <div class={classes!("azeroid")}>
+                        {"Azero ID: "}
+                        <a style="color: #130129" href={format!("https://{}.id", domain)} target="_blank">
+                            {domain}
+                        </a>
+                    </div>
                 }
-            </>
+            }
+            None => {
+                html! {
+                    <div>{"Fetching Azero ID..."}</div>
+                }
+            }
         }
+        
     }
 }
