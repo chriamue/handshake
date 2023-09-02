@@ -1,17 +1,18 @@
-use crate::address_button_component::AddressButtonComponent;
 use crate::env::URL;
 use base64::encode;
 use qrcode_generator::QrCodeEcc;
 use yew::prelude::*;
 use yew_router::prelude::*;
+use web_sys::window;
 use crate::profile::Profile;
+use crate::connect_to::ConnectTo;
 
 #[derive(Clone, Routable, PartialEq)]
 pub enum Route {
     #[at("/")]
     Home,
-    #[at("/connect/:id")]
-    Connect { id: String },
+    #[at("/connect")]
+    Connect,
 }
 
 pub struct App;
@@ -36,10 +37,30 @@ impl Component for App {
 
 fn switch(routes: Route) -> Html {
     match routes {
-        Route::Connect { id } => {
+        Route::Connect => {
+            let id = match window().and_then(|win| win.location().search().ok()) {
+                Some(query) => {
+                    let query = query.trim_start_matches('?');
+                    let pairs: Vec<&str> = query.split('&').collect();
+                    pairs.iter()
+                        .filter_map(|&pair| {
+                            let mut split = pair.splitn(2, '=');
+                            let key = split.next()?;
+                            let value = split.next()?;
+                            if key == "id" {
+                                Some(value.to_string())
+                            } else {
+                                None
+                            }
+                        })
+                        .next()
+                        .unwrap_or_default()
+                }
+                None => String::new(),
+            };
             html! {
             <div>
-                <h1>{"Connecting to "}{id}</h1>
+                <ConnectTo id={id} />
             </div> }
         }
         Route::Home => {

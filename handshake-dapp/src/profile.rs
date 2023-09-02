@@ -30,8 +30,9 @@ impl Component for Profile {
             ProfileMessage::AddressChanged(new_address) => {
                 self.address = Some(new_address);
                 web_sys::console::log_1(&format!("Address changed to {}", self.address.as_ref().unwrap_or(&"".to_string())).to_string().into());
+                let url = format!("{}connect?id={}", URL, self.address.as_ref().unwrap_or(&"".to_string()));
                 let png_data: Vec<u8> =
-                    qrcode_generator::to_png_to_vec(&self.address.as_ref().unwrap_or(&URL.to_string()), QrCodeEcc::Low, 1024).unwrap();
+                    qrcode_generator::to_png_to_vec(url, QrCodeEcc::Low, 1024).unwrap();
                 self.qr_code_data = Some(encode(&png_data));
 
                 true
