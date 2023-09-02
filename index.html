@@ -108,6 +108,9 @@ async function doHandshake(contractAddress, source, senderAddress, destinationAd
   const metadata = await loadContractMetadata();
   const contract = new ContractPromise(api, metadata, contractAddress);
 
+  const metadataRpc = await api.rpc.state.getMetadata();
+  api.registry.setMetadata(metadataRpc);
+  
   const { BN, BN_ONE } = await import(
     "https://cdn.jsdelivr.net/npm/@polkadot/util@12.4.1/+esm"
   );
@@ -145,7 +148,7 @@ async function doAccountLookup(accountAddress) {
   )
   // Print result
   if (error) console.log(error.message)
-  else console.log(primaryDomain)
+  else console.log("primary domain: ", primaryDomain)
   return primaryDomain;
 }
 
@@ -166,11 +169,11 @@ fetchNumHandshakes("5C8iyAnGiuWN2Dc4MZJMwDkw8U6CGYAJsDru5zFK5bUFof4Y").catch(
 );
 
 doAccountLookup("5H8rm9f9LE7VLqrL8qhmu4NAjwfPTrH8ShsyUqMBq6aDsaHb").catch(console.error);</script>
-    <link rel="stylesheet" href="/handshake/index-516a78f10195061e.css">
+    <link rel="stylesheet" href="/handshake/index-df7cc7dcb8b5e24e.css">
     
     <title>Handshake App</title>
   
-<link rel="preload" href="/handshake/handshake-dapp-3227f4ff620e83c2_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="/handshake/handshake-dapp-3227f4ff620e83c2.js"></head>
+<link rel="preload" href="/handshake/handshake-dapp-2f9dbd0f024f48be_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/handshake/handshake-dapp-2f9dbd0f024f48be.js"></head>
 <body>
-<script type="module">import init from '/handshake/handshake-dapp-3227f4ff620e83c2.js';init('/handshake/handshake-dapp-3227f4ff620e83c2_bg.wasm');</script></body></html>
+<script type="module">import init from '/handshake/handshake-dapp-2f9dbd0f024f48be.js';init('/handshake/handshake-dapp-2f9dbd0f024f48be_bg.wasm');</script></body></html>
