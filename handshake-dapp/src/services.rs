@@ -1,3 +1,4 @@
+use crate::env::CONTRACT;
 use anyhow::anyhow;
 use js_sys::Promise;
 use serde::{Deserialize, Serialize};
@@ -8,6 +9,10 @@ use wasm_bindgen_futures::JsFuture;
 extern "C" {
     #[wasm_bindgen(js_name = getAccounts)]
     pub fn js_get_accounts() -> Promise;
+    #[wasm_bindgen(js_name = fetchNumAccounts)]
+    pub fn js_fetch_num_accounts(contract: String) -> Promise;
+    #[wasm_bindgen(js_name = fetchNumHandshakes)]
+    pub fn js_fetch_num_handshakes(contract: String) -> Promise;
 }
 
 /// DTO to communicate with JavaScript
@@ -32,4 +37,12 @@ pub async fn get_accounts() -> Result<Vec<Account>, anyhow::Error> {
         .ok_or(anyhow!("Error converting JsValue into String"))?;
     let accounts: Vec<Account> = serde_json::from_str(&accounts_str)?;
     Ok(accounts)
+}
+
+pub async fn get_num_accounts() -> Result<String, anyhow::Error> {
+    let result = JsFuture::from(js_fetch_num_accounts(CONTRACT.to_string()))
+        .await
+        .map_err(|js_err| anyhow!("{js_err:?}"))?;
+    let num_accounts = result.as_string().ok_or(anyhow!("Expected a stringified JSON"))?;
+    Ok(num_accounts)
 }

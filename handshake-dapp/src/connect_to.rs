@@ -1,7 +1,6 @@
 use yew::prelude::*;
 
-pub struct ConnectTo {
-}
+pub struct ConnectTo {}
 
 #[derive(Properties, Clone, PartialEq)]
 pub struct Props {
@@ -13,8 +12,7 @@ impl Component for ConnectTo {
     type Properties = Props;
 
     fn create(_ctx: &Context<Self>) -> Self {
-        ConnectTo {
-        }
+        ConnectTo {}
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {

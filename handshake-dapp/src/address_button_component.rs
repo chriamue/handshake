@@ -1,7 +1,7 @@
 use crate::services::get_accounts;
 use crate::services::Account;
-use yew::prelude::*;
 use futures::FutureExt;
+use yew::prelude::*;
 
 pub struct AddressButtonComponent {
     address: Option<String>,
@@ -44,7 +44,7 @@ impl Component for AddressButtonComponent {
             AddressMessage::Error(err) => {
                 self.stage = AddressStage::Error(err.to_string());
                 true
-            },
+            }
             AddressMessage::RequestAccounts => {
                 self.stage = AddressStage::RequestingAccounts;
                 // Logic to fetch address from Polkadot wallet.
@@ -55,17 +55,6 @@ impl Component for AddressButtonComponent {
                         Err(err) => AddressMessage::Error(err),
                     },
                 ));
-                let future = get_accounts();
-                async move {
-                    match future.await {
-                        Ok(accounts) => AddressMessage::GotAddress(accounts),
-                        Err(err) => {
-                            web_sys::console::log_1(&format!("Error: {:?}", err).into());
-                            // Handle error
-                            AddressMessage::GotAddress(Vec::new())
-                        }
-                    }
-                };
                 true
             }
             AddressMessage::GotAddress(accounts) => {
@@ -75,7 +64,7 @@ impl Component for AddressButtonComponent {
                 } else {
                     let account: &Account = &accounts[0].clone();
                     self.stage = AddressStage::SelectAccount(accounts);
-                    
+
                     ctx.props().on_address.emit(account.address.clone());
                 }
                 true

@@ -1,12 +1,13 @@
+use crate::connect_to::ConnectTo;
 use crate::env::URL;
+use crate::num_accounts_component::NumAccountsComponent;
+use crate::profile::Profile;
+use crate::sign_up::SignUp;
 use base64::encode;
 use qrcode_generator::QrCodeEcc;
+use web_sys::window;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use web_sys::window;
-use crate::profile::Profile;
-use crate::connect_to::ConnectTo;
-use crate::sign_up::SignUp;
 
 #[derive(Clone, Routable, PartialEq)]
 pub enum Route {
@@ -45,7 +46,8 @@ fn switch(routes: Route) -> Html {
                 Some(query) => {
                     let query = query.trim_start_matches('?');
                     let pairs: Vec<&str> = query.split('&').collect();
-                    pairs.iter()
+                    pairs
+                        .iter()
                         .filter_map(|&pair| {
                             let mut split = pair.splitn(2, '=');
                             let key = split.next()?;
@@ -82,7 +84,8 @@ fn switch(routes: Route) -> Html {
             <div>
                 <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>
                 <Link<Route> to={Route::Profile}> <button>{"My Profile"}</button></Link<Route>>
-                <img src="res/welcome.png" width="100%" height="100%" alt="welcome"/> 
+                <img src="res/welcome.png" width="100%" height="100%" alt="welcome"/>
+                <NumAccountsComponent />
                 <SignUp />
             </div> }
         }

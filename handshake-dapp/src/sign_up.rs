@@ -1,5 +1,5 @@
-use yew::prelude::*;
 use crate::address_button_component::AddressButtonComponent;
+use yew::prelude::*;
 
 pub enum Message {
     AddressChanged(String),
@@ -14,17 +14,21 @@ impl Component for SignUp {
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        SignUp {
-            address: None,
-        }
+        SignUp { address: None }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Message::AddressChanged(new_address) => {
                 self.address = Some(new_address);
-                web_sys::console::log_1(&format!("Address changed to {}", self.address.as_ref().unwrap_or(&"".to_string())).to_string().into());
-                
+                web_sys::console::log_1(
+                    &format!(
+                        "Address changed to {}",
+                        self.address.as_ref().unwrap_or(&"".to_string())
+                    )
+                    .to_string()
+                    .into(),
+                );
 
                 true
             }
