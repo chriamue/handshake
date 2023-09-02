@@ -153,11 +153,11 @@ async function fetchNumHandshakes(contractAddress) {
   return await queryContract(contractAddress, "numHandshakes");
 }
 
-fetchNumAccounts("5C93YodqcxnCBRq6V7fCofvwLiLshkFqrhVJTzjoXMvjQRo7").catch(
+fetchNumAccounts("5C8iyAnGiuWN2Dc4MZJMwDkw8U6CGYAJsDru5zFK5bUFof4Y").catch(
   console.error
 );
 
-fetchNumHandshakes("5C93YodqcxnCBRq6V7fCofvwLiLshkFqrhVJTzjoXMvjQRo7").catch(
+fetchNumHandshakes("5C8iyAnGiuWN2Dc4MZJMwDkw8U6CGYAJsDru5zFK5bUFof4Y").catch(
   console.error
 );
 

@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xb40b04c3554e2ff006c56747b4736f97db7776de691beb6fd95eeb2526aed272",
+    "hash": "0xec84c2c502a1f1143e3c175f76dbf31ed4b24cea58c97473cdc6c747131e6f74",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.71.1",
     "build_info": {
@@ -74,20 +74,20 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 23
+        "type": 27
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 21
+        "type": 25
       },
       "maxEventTopics": 4,
       "timestamp": {
         "displayName": [
           "Timestamp"
         ],
-        "type": 22
+        "type": 26
       }
     },
     "events": [],
@@ -192,6 +192,77 @@
       {
         "args": [
           {
+            "label": "router_addr",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "tld",
+            "type": {
+              "displayName": [
+                "Option"
+              ],
+              "type": 19
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_primary_domains",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 20
+        },
+        "selector": "0xdf3a358e"
+      },
+      {
+        "args": [
+          {
+            "label": "owner",
+            "type": {
+              "displayName": [
+                "psp22_external",
+                "BalanceOfInput1"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PSP22::balance_of",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 23
+        },
+        "selector": "0x6568382f"
+      },
+      {
+        "args": [
+          {
             "label": "spender",
             "type": {
               "displayName": [
@@ -225,90 +296,6 @@
           "type": 10
         },
         "selector": "0xb20f1bbd"
-      },
-      {
-        "args": [
-          {
-            "label": "spender",
-            "type": {
-              "displayName": [
-                "psp22_external",
-                "DecreaseAllowanceInput1"
-              ],
-              "type": 2
-            }
-          },
-          {
-            "label": "delta_value",
-            "type": {
-              "displayName": [
-                "psp22_external",
-                "DecreaseAllowanceInput2"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PSP22::decrease_allowance",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xfecb57d5"
-      },
-      {
-        "args": [
-          {
-            "label": "to",
-            "type": {
-              "displayName": [
-                "psp22_external",
-                "TransferInput1"
-              ],
-              "type": 2
-            }
-          },
-          {
-            "label": "value",
-            "type": {
-              "displayName": [
-                "psp22_external",
-                "TransferInput2"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "data",
-            "type": {
-              "displayName": [
-                "psp22_external",
-                "TransferInput3"
-              ],
-              "type": 19
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PSP22::transfer",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xdb20f9f5"
       },
       {
         "args": [
@@ -359,36 +346,46 @@
             "ink",
             "MessageResult"
           ],
-          "type": 20
+          "type": 23
         },
         "selector": "0x162df8c2"
       },
       {
         "args": [
           {
-            "label": "owner",
+            "label": "spender",
             "type": {
               "displayName": [
                 "psp22_external",
-                "BalanceOfInput1"
+                "DecreaseAllowanceInput1"
               ],
               "type": 2
+            }
+          },
+          {
+            "label": "delta_value",
+            "type": {
+              "displayName": [
+                "psp22_external",
+                "DecreaseAllowanceInput2"
+              ],
+              "type": 0
             }
           }
         ],
         "default": false,
         "docs": [],
-        "label": "PSP22::balance_of",
-        "mutates": false,
+        "label": "PSP22::decrease_allowance",
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 20
+          "type": 10
         },
-        "selector": "0x6568382f"
+        "selector": "0xfecb57d5"
       },
       {
         "args": [
@@ -423,9 +420,56 @@
             "ink",
             "MessageResult"
           ],
-          "type": 20
+          "type": 23
         },
         "selector": "0x4d47d921"
+      },
+      {
+        "args": [
+          {
+            "label": "to",
+            "type": {
+              "displayName": [
+                "psp22_external",
+                "TransferInput1"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "value",
+            "type": {
+              "displayName": [
+                "psp22_external",
+                "TransferInput2"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "data",
+            "type": {
+              "displayName": [
+                "psp22_external",
+                "TransferInput3"
+              ],
+              "type": 24
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PSP22::transfer",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 10
+        },
+        "selector": "0xdb20f9f5"
       },
       {
         "args": [
@@ -466,7 +510,7 @@
                 "psp22_external",
                 "TransferFromInput4"
               ],
-              "type": 19
+              "type": 24
             }
           }
         ],
@@ -1079,14 +1123,100 @@
       "id": 19,
       "type": {
         "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 13
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 21
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 21
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
           "sequence": {
-            "type": 4
+            "type": 22
           }
         }
       }
     },
     {
-      "id": 20,
+      "id": 22,
+      "type": {
+        "def": {
+          "tuple": [
+            2,
+            13
+          ]
+        }
+      }
+    },
+    {
+      "id": 23,
       "type": {
         "def": {
           "variant": {
@@ -1128,7 +1258,17 @@
       }
     },
     {
-      "id": 21,
+      "id": 24,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 4
+          }
+        }
+      }
+    },
+    {
+      "id": 25,
       "type": {
         "def": {
           "composite": {
@@ -1148,7 +1288,7 @@
       }
     },
     {
-      "id": 22,
+      "id": 26,
       "type": {
         "def": {
           "primitive": "u64"
@@ -1156,7 +1296,7 @@
       }
     },
     {
-      "id": 23,
+      "id": 27,
       "type": {
         "def": {
           "variant": {}
