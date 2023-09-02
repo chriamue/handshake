@@ -1,9 +1,57 @@
 #![cfg_attr(not(feature = "std"), no_std, no_main)]
 
+mod azns_router {
+    use scale_info::prelude::string::String;
+    use scale_info::prelude::vec::Vec;
+    use openbrush::traits::AccountId;
+    
+    #[derive(Debug, PartialEq, Eq, scale::Encode, scale::Decode)]
+    #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
+    pub enum Error {
+        /// Caller is not allowed to call privileged calls.
+        NotAdmin,
+        /// Not a contract address
+        InvalidRegistryAddress,
+        /// Given TLD already points to a registry
+        TldAlreadyInUse(String),
+        /// Given Tld not found
+        TldNotFound(String),
+        /// Cannot find the resolved address
+        CouldNotResolveDomain,
+        /// Domain does not contain valid name and/or tld
+        InvalidDomainName,
+    }
+
+    #[ink::trait_definition]
+    pub trait AznsContract {
+        #[ink(message, selector = 0xe6da7bf0)]
+        fn get_all_registries(&self) -> Vec<AccountId>;
+     
+        #[ink(message, selector = 0x15a5d20a)]
+        fn get_registry(&self, tld: String) -> Option<AccountId>;
+     
+        #[ink(message, selector = 0xd259f7ba)]
+        fn get_address(&self, domain: String) -> Result<AccountId, Error>;
+     
+        #[ink(message, selector = 0xdf3a358e)]
+        fn get_primary_domains(
+            &self,
+            account: AccountId,
+            tld: Option<String>,
+        ) -> Vec<(AccountId, String)>;
+    }
+}
+
 #[openbrush::implementation(PSP22, PSP22Mintable)]
 #[openbrush::contract]
 pub mod handshake {
     use openbrush::traits::Storage;
+    use openbrush::traits::String;
+
+    use crate::azns_router::{
+        AznsContract,
+        Error as AznsRouterError,
+    };
 
     #[ink(storage)]
     #[derive(Default, Storage)]
@@ -60,6 +108,18 @@ pub mod handshake {
                 .map(|(executive, _)| *executive)
                 .collect();
             Ok(other_handshakes)
+        }
+
+        #[ink(message)]
+        pub fn get_primary_domains(
+            &self,
+            router_addr: AccountId,
+            account: AccountId,
+            tld: Option<String>,
+        ) -> Vec<(AccountId, String)> {
+            let router: ink::contract_ref!(AznsContract) = router_addr.into();
+        
+            router.get_primary_domains(account, tld)
         }
     }
 
