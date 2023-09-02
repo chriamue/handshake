@@ -53,10 +53,19 @@ impl Component for Profile {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
-            <div>
-                <h1>{"Welcome to the Handshake!"}</h1>
-                <img width=320 height=320 src={format!("data:image/png;base64,{}", self.qr_code_data.as_ref().unwrap_or(&"".to_string()))} />
+            <div id="profile">
                 <AddressButtonComponent on_address={ctx.link().callback(ProfileMessage::AddressChanged)} />
+                <img id="currentevent" src="res/currentevent.png" width="100%" height="100%" alt="currentevent"/>
+                {
+                    match &self.qr_code_data {
+                        Some(qr_code_data) => html! {
+                            <img width=320 height=320 src={format!("data:image/png;base64,{}", qr_code_data)} />
+                        },
+                        None => html! {
+                            <></>
+                        }
+                    }
+                }
             </div>
         }
     }

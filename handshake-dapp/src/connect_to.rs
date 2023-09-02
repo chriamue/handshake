@@ -66,9 +66,9 @@ impl Component for ConnectTo {
         html! {
             <div>
             <AddressButtonComponent on_account={Some(ctx.link().callback(Message::AccountChanged))} on_address={Callback::noop()}/>
-                
+
             <div id="connect">
-            <img id="currentevent" src="res/currentevent.png" width="100%" height="100%" alt="currentevent"/>
+                <img id="currentevent" src="res/currentevent.png" width="100%" height="100%" alt="currentevent"/>
                 <div id="connectto">{"Connecting to "}</div>
                 <div id="azeroid">
                 <AzeroId account={id.clone()} />
