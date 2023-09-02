@@ -18,6 +18,7 @@ pub enum AddressMessage {
 #[derive(Properties, Clone, PartialEq)]
 pub struct AddressButtonProps {
     pub on_address: Callback<String>,
+    pub on_account: Option<Callback<Account>>,
 }
 
 pub enum AddressStage {
@@ -66,6 +67,9 @@ impl Component for AddressButtonComponent {
                     self.stage = AddressStage::SelectAccount(accounts);
 
                     ctx.props().on_address.emit(account.address.clone());
+                    if let Some(on_account) = &ctx.props().on_account {
+                        on_account.emit(account.clone());
+                    }
                 }
                 true
             }

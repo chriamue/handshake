@@ -13,6 +13,14 @@ extern "C" {
     pub fn js_fetch_num_accounts(contract: String) -> Promise;
     #[wasm_bindgen(js_name = fetchNumHandshakes)]
     pub fn js_fetch_num_handshakes(contract: String) -> Promise;
+
+    #[wasm_bindgen(js_name = doHandshake)]
+    pub fn js_handshake(
+        contract: String,
+        source: String,
+        sender_address: String,
+        destination_address: String
+    ) -> Promise;
 }
 
 /// DTO to communicate with JavaScript
@@ -45,4 +53,23 @@ pub async fn get_num_accounts() -> Result<String, anyhow::Error> {
         .map_err(|js_err| anyhow!("{js_err:?}"))?;
     let num_accounts = result.as_string().ok_or(anyhow!("Expected a stringified JSON"))?;
     Ok(num_accounts)
+}
+
+pub async fn do_handshake(
+    source: String,
+    sender_address: String,
+    destination_address: String,
+) -> Result<String, anyhow::Error> {
+    let result = JsFuture::from(js_handshake(
+        CONTRACT.to_string(),
+        source,
+        sender_address,
+        destination_address
+    ))
+    .await
+    .map_err(|js_err| anyhow!("{js_err:?}"))?;
+    let result = result
+        .as_string()
+        .ok_or(anyhow!("Error converting JsValue into String"))?;
+    Ok(result)
 }
