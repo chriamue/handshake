@@ -1,10 +1,7 @@
 use crate::connect_to::ConnectTo;
-use crate::env::URL;
 use crate::leaderboard::Leaderboard;
 use crate::profile::Profile;
 use crate::sign_up::SignUp;
-use base64::encode;
-use qrcode_generator::QrCodeEcc;
 use web_sys::window;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -71,9 +68,6 @@ fn switch(routes: Route) -> Html {
             </div> }
         }
         Route::Profile => {
-            let png_data: Vec<u8> =
-                qrcode_generator::to_png_to_vec(&URL, QrCodeEcc::Low, 1024).unwrap();
-            let base64_png = encode(&png_data);
             html! {
                 <>
                 <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>

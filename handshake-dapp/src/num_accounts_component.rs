@@ -32,7 +32,7 @@ impl Component for NumAccountsComponent {
         }
     }
 
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Message::ReceivedNumAccounts(count) => {
                 self.num_accounts = Some(count);
@@ -42,7 +42,7 @@ impl Component for NumAccountsComponent {
         true
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 { self.num_accounts.unwrap_or_default() }

@@ -4,7 +4,6 @@ use futures::FutureExt;
 use yew::prelude::*;
 
 pub struct AddressButtonComponent {
-    address: Option<String>,
     stage: AddressStage,
 }
 
@@ -33,9 +32,8 @@ impl Component for AddressButtonComponent {
 
     type Properties = AddressButtonProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         AddressButtonComponent {
-            address: None,
             stage: AddressStage::EnterAccount,
         }
     }
@@ -73,9 +71,7 @@ impl Component for AddressButtonComponent {
                 }
                 true
             }
-            AddressMessage::SignWithAccount(index) => {
-                // You can add the logic here to handle the selected account.
-                // For simplicity, I'll just set the stage to EnterAccount again.
+            AddressMessage::SignWithAccount(_index) => {
                 self.stage = AddressStage::EnterAccount;
                 true
             }

@@ -69,6 +69,16 @@ pub async fn get_num_accounts() -> Result<String, anyhow::Error> {
     Ok(num_accounts)
 }
 
+pub async fn get_num_handshakes() -> Result<String, anyhow::Error> {
+    let result = JsFuture::from(js_fetch_num_handshakes(CONTRACT.to_string()))
+        .await
+        .map_err(|js_err| anyhow!("{js_err:?}"))?;
+    let num_handshakes = result
+        .as_string()
+        .ok_or(anyhow!("Expected a stringified JSON"))?;
+    Ok(num_handshakes)
+}
+
 pub async fn do_handshake(
     source: String,
     sender_address: String,

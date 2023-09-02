@@ -1,9 +1,9 @@
-use crate::services::get_num_accounts;
+use crate::services::get_num_handshakes;
 use anyhow::anyhow;
 use yew::prelude::*;
 
 pub struct NumActiveComponent {
-    num_accounts: Option<u128>,
+    num_handshakes: Option<u128>,
     error: Option<String>,
 }
 
@@ -18,34 +18,34 @@ impl Component for NumActiveComponent {
 
     fn create(ctx: &Context<Self>) -> Self {
         ctx.link().send_future(async {
-            match get_num_accounts().await {
-                Ok(accounts) => {
-                    web_sys::console::log_1(&format!("Num Accounts: {:?}", accounts).into());
-                    Message::ReceivedNumAccounts(accounts.parse().unwrap())
+            match get_num_handshakes().await {
+                Ok(handshakes) => {
+                    web_sys::console::log_1(&format!("Num Handshakes: {:?}", handshakes).into());
+                    Message::ReceivedNumAccounts(handshakes.parse().unwrap())
                 }
-                Err(_) => Message::Error(anyhow!("Failed to fetch num accounts.".to_string())),
+                Err(_) => Message::Error(anyhow!("Failed to fetch num handshakes.".to_string())),
             }
         });
         NumActiveComponent {
-            num_accounts: None,
+            num_handshakes: None,
             error: None,
         }
     }
 
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Message::ReceivedNumAccounts(count) => {
-                self.num_accounts = Some(count);
+                self.num_handshakes = Some(count);
             }
             Message::Error(err) => self.error = Some(err.to_string()),
         }
         true
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div>
-                { self.num_accounts.unwrap_or_default() }
+                { self.num_handshakes.unwrap_or_default() }
             </div>
         }
     }
