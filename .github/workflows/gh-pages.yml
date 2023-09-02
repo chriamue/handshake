@@ -24,7 +24,7 @@ jobs:
       - run: rustup target add wasm32-unknown-unknown
       - run: cargo install --locked trunk
       - run: cd handshake-dapp && trunk build --release --features github --public-url /handshake
-      - run: cp handshake-dapp/index.html handshake-dapp/404.html
+      - run: cp handshake-dapp/dist/index.html handshake-dapp/dist/404.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
