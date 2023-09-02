@@ -66,6 +66,7 @@ impl Component for Profile {
                         }
                     }
                 }
+                <img src="res/connections.png" width="100%" height="100%" alt="connections"/>
             </div>
         }
     }

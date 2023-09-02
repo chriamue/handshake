@@ -1,7 +1,6 @@
 use crate::connect_to::ConnectTo;
 use crate::leaderboard::Leaderboard;
 use crate::profile::Profile;
-use crate::sign_up::SignUp;
 use web_sys::window;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -90,7 +89,6 @@ fn switch(routes: Route) -> Html {
                 <Link<Route> to={Route::Profile}> <button>{"My Profile"}</button></Link<Route>>
                 <Link<Route> to={Route::Leaderboard}> <button>{"Leaderboard"}</button></Link<Route>>
                 <img src="res/welcome.png" width="100%" height="100%" alt="welcome"/>
-                <SignUp />
             </div> }
         }
     }
