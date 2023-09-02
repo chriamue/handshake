@@ -104,6 +104,9 @@ async function doHandshake(contractAddress, source, senderAddress, destinationAd
   const metadata = await loadContractMetadata();
   const contract = new ContractPromise(api, metadata, contractAddress);
 
+  const metadataRpc = await api.rpc.state.getMetadata();
+  api.registry.setMetadata(metadataRpc);
+  
   const { BN, BN_ONE } = await import(
     "https://cdn.jsdelivr.net/npm/@polkadot/util@12.4.1/+esm"
   );
@@ -141,7 +144,7 @@ async function doAccountLookup(accountAddress) {
   )
   // Print result
   if (error) console.log(error.message)
-  else console.log(primaryDomain)
+  else console.log("primary domain: ", primaryDomain)
   return primaryDomain;
 }
 

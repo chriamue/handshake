@@ -36,7 +36,7 @@ impl Component for AzeroId {
                 true
             }
             Message::AzeroIdReceived(Err(_)) => {
-                self.domain = Some("Error fetching Azero ID".to_string());
+                self.domain = None;
                 true
             }
         }

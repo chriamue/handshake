@@ -70,6 +70,9 @@ impl Component for ConnectTo {
             <div id="connect">
                 <img id="currentevent" src="res/currentevent.png" width="100%" height="100%" alt="currentevent"/>
                 <div id="connectto">{"Connecting to "}</div>
+                <div id="aicon">
+                    <img src="res/aicon.png" width="124px" height="124px" alt="aicon"/>
+                </div>
                 <div id="azeroid">
                 <AzeroId account={id.clone()} />
                 </div>

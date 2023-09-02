@@ -89,6 +89,14 @@ button {
   letter-spacing: -0.42px;
 }
 
+#connect #aicon {
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center; /* vertical centering */
+  width: 123.5px;
+  height: 123.5px;
+}
+
 .azeroid {
   color: #130129;
   font-family: Inter;
