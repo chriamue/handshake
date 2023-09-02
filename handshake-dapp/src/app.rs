@@ -80,10 +80,9 @@ fn switch(routes: Route) -> Html {
         Route::Home => {
             html! {
             <div>
-                <h1>{"Welcome Handshake!"}</h1>
                 <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>
                 <Link<Route> to={Route::Profile}> <button>{"My Profile"}</button></Link<Route>>
-
+                <img src="res/welcome.png" width="100%" height="100%" alt="welcome"/> 
                 <SignUp />
             </div> }
         }
