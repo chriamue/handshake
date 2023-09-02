@@ -1,8 +1,8 @@
 use crate::connect_to::ConnectTo;
 use crate::env::URL;
-use crate::num_accounts_component::NumAccountsComponent;
 use crate::profile::Profile;
 use crate::sign_up::SignUp;
+use crate::leaderboard::Leaderboard;
 use base64::encode;
 use qrcode_generator::QrCodeEcc;
 use web_sys::window;
@@ -17,6 +17,8 @@ pub enum Route {
     Connect,
     #[at("/profile")]
     Profile,
+    #[at("/leaderboard")]
+    Leaderboard,
 }
 
 pub struct App;
@@ -79,13 +81,21 @@ fn switch(routes: Route) -> Html {
                 </>
             }
         }
+        Route::Leaderboard => {
+            html! {
+            <div>
+                <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>
+                <Link<Route> to={Route::Profile}> <button>{"My Profile"}</button></Link<Route>>
+                <Leaderboard />
+            </div> }
+        }
         Route::Home => {
             html! {
             <div>
                 <Link<Route> to={Route::Home}> <button>{"Home"} </button></Link<Route>>
                 <Link<Route> to={Route::Profile}> <button>{"My Profile"}</button></Link<Route>>
+                <Link<Route> to={Route::Leaderboard}> <button>{"Leaderboard"}</button></Link<Route>>
                 <img src="res/welcome.png" width="100%" height="100%" alt="welcome"/>
-                <NumAccountsComponent />
                 <SignUp />
             </div> }
         }
