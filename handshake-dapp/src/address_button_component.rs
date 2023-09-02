@@ -73,7 +73,10 @@ impl Component for AddressButtonComponent {
                 if accounts.is_empty() {
                     self.stage = AddressStage::EnterAccount;
                 } else {
+                    let account: &Account = &accounts[0].clone();
                     self.stage = AddressStage::SelectAccount(accounts);
+                    
+                    ctx.props().on_address.emit(account.address.clone());
                 }
                 true
             }
