@@ -124,6 +124,23 @@ pub mod handshake {
 
             router.get_primary_domains(account, tld)
         }
+
+        // TODO: calculation of value based on handshake
+        #[ink(message)]
+        pub fn payout(&mut self, value: Balance) {
+            ink::env::debug_println!("requested value: {}", value);
+            ink::env::debug_println!("contract balance: {}", self.env().balance());
+
+            assert!(value <= self.env().balance(), "insufficient funds!");
+
+            if self.env().transfer(self.env().caller(), value).is_err() {
+                panic!(
+                    "requested transfer failed. this can be the case if the contract does not\
+                     have sufficient free funds or if the transfer would have brought the\
+                     contract's balance below minimum balance."
+                )
+            }
+        }
     }
 
     #[cfg(test)]
