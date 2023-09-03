@@ -90,6 +90,7 @@ fn switch(routes: Route) -> Html {
                 <Link<Route> to={Route::Profile}> <button>{"My Profile"}</button></Link<Route>>
                 <Link<Route> to={Route::Leaderboard}> <button>{"Leaderboard"}</button></Link<Route>>
                 <img src="res/welcome.png" width="100%" height="100%" alt="welcome"/>
+                <a href="res/handshake.pdf" target="blank">{"Download Handshake Overview"}</a>
             </div> }
         }
     }
